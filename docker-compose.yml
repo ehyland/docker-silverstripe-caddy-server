@@ -1,0 +1,39 @@
+version: '2'
+
+volumes:
+  caddy_ss_db:
+
+services:
+  caddy:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile-Caddy
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./code:/code
+    links:
+      - silverstripe
+    environment:
+      - CADDYPATH="/code/.caddy"
+    command: /usr/bin/caddy -agree -conf="/code/Caddyfile" -pidfile "/var/run/caddy/pid"
+
+  db:
+    image: mariadb:10.1
+    volumes:
+      - caddy_ss_db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+
+  silverstripe:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile-Silverstripe
+    volumes:
+      - ./code:/code
+    expose:
+      - '9000'
+    command: hhvm --mode server --config "/etc/hhvm/server.ini"
+    links:
+      - db

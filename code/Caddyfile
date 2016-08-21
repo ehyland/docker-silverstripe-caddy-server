@@ -1,0 +1,42 @@
+localhost:80
+
+gzip
+
+log ./access.log
+
+root /code/site
+
+fastcgi / silverstripe:9000 php
+
+# block access to php files in mysite, framework and cms
+rewrite / {
+  if {path} match /(mysite|framework|cms)/.*\.(php|php3|php4|php5|phtml|inc)$
+  if {path} not_match /framework/.*(main|rpc|tiny_mce_gzip)\.php$
+  if_op and
+  status 403
+}
+
+# block access to other files
+rewrite / {
+  if {path} match /\..
+  if {path} match \.ss$
+  if {path} match web\.config$
+  if {path} match \.ya?ml$
+  if {path} match ^/vendor/
+  if {path} match /silverstripe-cache/
+  if {path} match composer\.(json|lock)$
+  if {path} match /(cms|framework)/silverstripe_version$
+  if_op or
+  status 403
+}
+
+# homepage rewrite
+rewrite {
+  if {path} is /
+  to /framework/main.php?url={uri}
+}
+
+# try static files then silverstripe
+rewrite {
+  to {path} {path}/ /framework/main.php?url={uri}
+}
