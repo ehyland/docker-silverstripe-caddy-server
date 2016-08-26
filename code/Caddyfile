@@ -4,7 +4,7 @@ gzip
 
 log ./access.log
 
-root /code/site
+root /code/www
 
 fastcgi / silverstripe:9000 php
 

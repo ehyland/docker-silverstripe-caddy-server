@@ -24,8 +24,8 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php -r "unlink('composer-setup.php');" && \
     composer self-update
 
-RUN mkdir -p /code/site
-WORKDIR /code/site
+RUN mkdir -p /code
+WORKDIR /code
 
 VOLUME ["/code"]
 EXPOSE 9000

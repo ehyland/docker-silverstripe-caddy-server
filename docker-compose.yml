@@ -1,4 +1,6 @@
 version: '2'
+volumes:
+  db_vol:
 
 services:
   caddy:
@@ -19,7 +21,7 @@ services:
   db:
     image: mariadb:10.1
     volumes:
-      - ./db:/var/lib/mysql
+      - db_vol:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: 'password'
 
