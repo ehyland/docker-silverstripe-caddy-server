@@ -20,7 +20,7 @@
 3. Access the site at `http://localhost`
 
 # TODO
-[] Create a docker user group (on host machine) in the install script  
-[] Create run silverstripe container as www-data  
-[] Create run caddy container as www-data  
-[] Create a redis container for session storage  
+- [ ] Create a docker user group (on host machine) in the install script  
+- [ ] Create run silverstripe container as www-data  
+- [ ] Create run caddy container as www-data  
+- [ ] Create a redis container for session storage  
