@@ -33,10 +33,10 @@ rewrite / {
 # homepage rewrite
 rewrite {
   if {path} is /
-  to /framework/main.php?url={uri}
+  to /framework/main.php?url={uri_escaped}&{query}
 }
 
 # try static files then silverstripe
 rewrite {
-  to {path} {path}/ /framework/main.php?url={uri}
+  to {path} {path}/ /framework/main.php?url={uri_escaped}&{query}
 }

@@ -1,6 +1,7 @@
 version: '2'
 volumes:
   db_vol:
+  redis_vol:
 
 services:
   caddy:
@@ -25,14 +26,18 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 'password'
 
+  redis:
+    image: redis:3.0
+    volumes:
+      - redis_vol:/data
+
   silverstripe:
     build:
       context: ./docker
       dockerfile: Dockerfile-Silverstripe
     volumes:
       - ./code:/code
-    expose:
-      - '9000'
-    command: hhvm --mode server --config "/etc/hhvm/server.ini"
     links:
       - db
+      - redis
+    command: hhvm --mode server --config "/etc/hhvm/server.ini" -d hhvm.server.user="www-data" -d hhvm.log.file="/code/hhvm.error.log" -d hhvm.log.file="/code/hhvm.error.log" -d session.save_handler="redis" -d session.save_path="tcp://redis:6379"

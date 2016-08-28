@@ -2,9 +2,9 @@ FROM buildpack-deps:xenial
 
 # deps
 RUN apt-get update && apt-get install -y \
-	software-properties-common \
-	libgmp-dev \
-	libmemcached-dev
+    software-properties-common \
+    libgmp-dev \
+    libmemcached-dev
 
 # hhvm
 RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e7281be7a449 && \
@@ -21,11 +21,13 @@ RUN echo "date.timezone = \"Europe/London\"" >> /etc/hhvm/php.ini
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
     php -r "if (hash_file('SHA384', 'composer-setup.php') === 'e115a8dc7871f15d853148a7fbac7da27d6c0030b848d9b3dc09e2a0388afed865e6a3d6b3c0fad45c48e2b5fc1196ae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
     php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
-    php -r "unlink('composer-setup.php');" && \
-    composer self-update
+    php -r "unlink('composer-setup.php');"
 
-RUN mkdir -p /code
+RUN \
+    mkdir -p /code && chown -R www-data:www-data /code && \
+    mkdir -p /var/www && chown -R www-data:www-data /var/www
+USER www-data
 WORKDIR /code
-
 VOLUME ["/code"]
+
 EXPOSE 9000
