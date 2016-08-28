@@ -17,4 +17,4 @@ define('SS_DEFAULT_ADMIN_PASSWORD', 'password');
 define('SS_ERROR_LOG', 'silverstripe.log');
 
 global $_FILE_TO_URL_MAPPING;
-$_FILE_TO_URL_MAPPING['/code/site'] = 'http://localhost';
+$_FILE_TO_URL_MAPPING['/code/www'] = 'http://localhost';
