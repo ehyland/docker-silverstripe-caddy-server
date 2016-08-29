@@ -40,4 +40,4 @@ services:
     links:
       - db
       - redis
-    command: hhvm --mode server --config "/etc/hhvm/server.ini" -d hhvm.server.user="www-data" -d hhvm.log.file="/code/hhvm.error.log" -d hhvm.log.file="/code/hhvm.error.log" -d session.save_handler="redis" -d session.save_path="tcp://redis:6379"
+    command: hhvm --mode server --config "/etc/hhvm/php.ini" --config "/etc/hhvm/server.ini"
